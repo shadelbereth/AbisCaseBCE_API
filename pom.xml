@@ -29,6 +29,13 @@
 			<artifactId>jersey-media-json-jackson</artifactId>
 			<version>${jersey2.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>net.wasdev.maven.tools.targets</groupId>
+			<artifactId>liberty-target</artifactId>
+			<version>RELEASE</version>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
