@@ -8,10 +8,13 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import be.abis.casebce.converter.ApiConverter;
-import be.abis.casebce.model.api.ExternalWorker;
+import be.abis.casebce.exception.ApiError;
 import be.abis.casebce.model.api.Worker;
 import be.abis.casebce.session.WorkerSessionRemote;
 
@@ -35,7 +38,15 @@ public class WorkerService {
 	@Path("{id}")
 	@GET
 	public Worker getWorker(@PathParam("id") int workerId) {
-		Worker worker = ApiConverter.convert(session.getUser(workerId));
+		Worker worker = null;
+		try {
+			worker = ApiConverter.convert(session.getUser(workerId));
+		} catch (Exception e) {
+			ApiError err = new ApiError("Impossible to get worker with id " + workerId,
+					Status.BAD_REQUEST.getStatusCode(), e.getMessage());
+			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
+			throw new WebApplicationException(err.getTitle(), res);
+		}
 		return worker;
 	}
 }
