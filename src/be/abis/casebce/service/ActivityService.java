@@ -9,6 +9,7 @@ import javax.naming.NamingException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
@@ -50,5 +51,20 @@ public class ActivityService {
 			throw new WebApplicationException(err.getTitle(), res);
 		}
 		return activities;
+	}
+
+	@GET
+	@Path("{id}")
+	public Activity getActivity(@PathParam("id") int id) {
+		Activity activity = null;
+		try {
+			activity = ApiConverter.convert(session.reuploadActivity(id));
+		} catch (Exception e) {
+			ApiError err = new ApiError("Impossible to get activity with id " + id, Status.BAD_REQUEST.getStatusCode(),
+					e.getMessage());
+			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
+			throw new WebApplicationException(err.getTitle(), res);
+		}
+		return activity;
 	}
 }
