@@ -50,14 +50,30 @@ public class WorkingDayService {
 		}
 		return workingDay;
 	}
-	
+
 	@Path("start")
 	@PUT
 	public WorkingDay startWorkingDay(WorkingDay workingDay) {
 		try {
 			workingDay = ApiConverter.convert(session.startWorkingDay(ApiConverter.convert(workingDay)));
 		} catch (Exception e) {
-			ApiError err = new ApiError("Impossible to start working day from worker " + workingDay.getWorker().getLogin(),
+			ApiError err = new ApiError(
+					"Impossible to start working day from worker " + workingDay.getWorker().getLogin(),
+					Status.BAD_REQUEST.getStatusCode(), e.getMessage());
+			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
+			throw new WebApplicationException(err.getTitle(), res);
+		}
+		return workingDay;
+	}
+
+	@Path("close")
+	@PUT
+	public WorkingDay closeWorkingDay(WorkingDay workingDay) {
+		try {
+			workingDay = ApiConverter.convert(session.closeWorkingDay(ApiConverter.convert(workingDay)));
+		} catch (Exception e) {
+			ApiError err = new ApiError(
+					"Impossible to close working day from worker " + workingDay.getWorker().getLogin(),
 					Status.BAD_REQUEST.getStatusCode(), e.getMessage());
 			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
 			throw new WebApplicationException(err.getTitle(), res);
