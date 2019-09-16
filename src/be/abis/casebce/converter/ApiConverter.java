@@ -102,6 +102,7 @@ public class ApiConverter {
 		workingDayApi.setEnd(workingDay.getEnd());
 		workingDayApi.setStart(workingDay.getStart());
 		workingDayApi.setWorker((ExternalWorker)ApiConverter.convert(workingDay.getWorker()));
+		workingDayApi.setId(workingDay.getId());
 		return workingDayApi;
 	}
 	
@@ -110,6 +111,7 @@ public class ApiConverter {
 		workingDayBean.setEnd(workingDay.getEnd());
 		workingDayBean.setStart(workingDay.getStart());
 		workingDayBean.setWorker((be.abis.casebce.model.ExternalWorker)ApiConverter.convert(workingDay.getWorker()));
+		workingDayBean.setId(workingDay.getId());
 		return workingDayBean;
 	}
 }
