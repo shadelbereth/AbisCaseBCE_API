@@ -5,6 +5,7 @@ import be.abis.casebce.model.api.Company;
 import be.abis.casebce.model.api.ExternalWorker;
 import be.abis.casebce.model.api.Project;
 import be.abis.casebce.model.api.Worker;
+import be.abis.casebce.model.api.WorkingDay;
 
 public class ApiConverter {
 	
@@ -94,5 +95,21 @@ public class ApiConverter {
 		companyBean.setName(company.getName());
 		companyBean.setId(company.getId());
 		return companyBean;
+	}
+	
+	public static WorkingDay convert(be.abis.casebce.model.WorkingDay workingDay) {
+		WorkingDay workingDayApi = new WorkingDay();
+		workingDayApi.setEnd(workingDay.getEnd());
+		workingDayApi.setStart(workingDay.getStart());
+		workingDayApi.setWorker((ExternalWorker)ApiConverter.convert(workingDay.getWorker()));
+		return workingDayApi;
+	}
+	
+	public static be.abis.casebce.model.WorkingDay convert(WorkingDay workingDay) {
+		be.abis.casebce.model.WorkingDay workingDayBean = new be.abis.casebce.model.WorkingDay();
+		workingDayBean.setEnd(workingDay.getEnd());
+		workingDayBean.setStart(workingDay.getStart());
+		workingDayBean.setWorker((be.abis.casebce.model.ExternalWorker)ApiConverter.convert(workingDay.getWorker()));
+		return workingDayBean;
 	}
 }
