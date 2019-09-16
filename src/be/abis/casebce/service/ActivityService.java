@@ -8,6 +8,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -66,5 +67,21 @@ public class ActivityService {
 			throw new WebApplicationException(err.getTitle(), res);
 		}
 		return activity;
+	}
+	
+	@PUT
+	@Path("{id}")
+	public void updateActivity(@PathParam("id") int id, Activity activity) {
+		try {
+			if (id != activity.getActivityId()) {
+				throw new Exception("Try to modify activity with wrong id");
+			}
+			session.updateActivity(ApiConverter.convert(activity));
+		} catch (Exception e) {
+			ApiError err = new ApiError("Impossible to update activity with id " + id, Status.BAD_REQUEST.getStatusCode(),
+					e.getMessage());
+			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
+			throw new WebApplicationException(err.getTitle(), res);
+		}
 	}
 }
