@@ -3,10 +3,16 @@ package be.abis.casebce.model.api;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import be.abis.casebce.converter.LocalDateTimeXmlAdapter;
+
 public class WorkingDay implements Serializable {
 
 	private int id;
+	@XmlJavaTypeAdapter(LocalDateTimeXmlAdapter.class)
 	private LocalDateTime start;
+	@XmlJavaTypeAdapter(LocalDateTimeXmlAdapter.class)
 	private LocalDateTime end;
 
 	private ExternalWorker worker;

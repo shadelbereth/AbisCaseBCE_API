@@ -5,6 +5,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -43,6 +44,20 @@ public class WorkingDayService {
 			workingDay = ApiConverter.convert(session.getCurrentWorkingDay(workerId));
 		} catch (Exception e) {
 			ApiError err = new ApiError("Impossible to get last working day from worker " + workerId,
+					Status.BAD_REQUEST.getStatusCode(), e.getMessage());
+			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
+			throw new WebApplicationException(err.getTitle(), res);
+		}
+		return workingDay;
+	}
+	
+	@Path("start")
+	@PUT
+	public WorkingDay startWorkingDay(WorkingDay workingDay) {
+		try {
+			workingDay = ApiConverter.convert(session.startWorkingDay(ApiConverter.convert(workingDay)));
+		} catch (Exception e) {
+			ApiError err = new ApiError("Impossible to start working day from worker " + workingDay.getWorker().getLogin(),
 					Status.BAD_REQUEST.getStatusCode(), e.getMessage());
 			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
 			throw new WebApplicationException(err.getTitle(), res);
