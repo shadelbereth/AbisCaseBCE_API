@@ -37,33 +37,12 @@ public class WorkerService {
 		}
 	}
 
-	@Path("{id}")
-	@GET
-	public Worker getWorker(@PathParam("id") int workerId) {
-		Worker worker = null;
-		try {
-			worker = ApiConverter.convert(workerSession.getUser(workerId));
-		} catch (Exception e) {
-			ApiError err = new ApiError("Impossible to get worker with id " + workerId,
-					Status.BAD_REQUEST.getStatusCode(), e.getMessage());
-			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
-			throw new WebApplicationException(err.getTitle(), res);
-		}
-		return worker;
-	}
-
 	@Path("login")
 	@POST
 	public Worker login(Login login) {
 		Worker worker = null;
 		try {
 			worker = ApiConverter.convert(this.workerSession.login(login.getLogin(), login.getPassword()));
-			System.out.println("login with " + login.getLogin() + " and " + login.getPassword());
-			// worker = new Worker();
-			// worker.setLogin(login.getLogin());
-			// worker.setFirstName(login.getLogin());
-			// worker.setId(-1);
-			// worker.setLastName(login.getLogin());
 		} catch (Exception e) {
 			ApiError err = new ApiError("Impossible to login", Status.BAD_REQUEST.getStatusCode(), e.getMessage());
 			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
