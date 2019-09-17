@@ -18,7 +18,6 @@ import be.abis.casebce.converter.ApiConverter;
 import be.abis.casebce.exception.ApiError;
 import be.abis.casebce.model.api.Login;
 import be.abis.casebce.model.api.Worker;
-import be.abis.casebce.session.LoginSessionRemote;
 import be.abis.casebce.session.WorkerSessionRemote;
 
 @Path("workers")
@@ -28,15 +27,11 @@ public class WorkerService {
 
 	@EJB(name = "WorkerSession")
 	private WorkerSessionRemote workerSession;
-	@EJB(name = "LoginSession")
-	private LoginSessionRemote session;
 
 	public WorkerService() {
 		try {
 			workerSession = (WorkerSessionRemote) new InitialContext().lookup(
 					"java:global/AbisCaseBCE_App/AbisCaseBCE_EJB/WorkerSession!be.abis.casebce.session.WorkerSessionRemote");
-			session = (LoginSessionRemote) new InitialContext().lookup(
-					"java:global/AbisCaseBCE_App/AbisCaseBCE_EJB/LoginSession!be.abis.casebce.session.LoginSessionRemote");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
@@ -62,13 +57,13 @@ public class WorkerService {
 	public Worker login(Login login) {
 		Worker worker = null;
 		try {
-			worker = ApiConverter.convert(this.session.login(login.getLogin(), login.getPassword()));
+			worker = ApiConverter.convert(this.workerSession.login(login.getLogin(), login.getPassword()));
 			System.out.println("login with " + login.getLogin() + " and " + login.getPassword());
-//			worker = new Worker();
-//			worker.setLogin(login.getLogin());
-//			worker.setFirstName(login.getLogin());
-//			worker.setId(-1);
-//			worker.setLastName(login.getLogin());
+			// worker = new Worker();
+			// worker.setLogin(login.getLogin());
+			// worker.setFirstName(login.getLogin());
+			// worker.setId(-1);
+			// worker.setLastName(login.getLogin());
 		} catch (Exception e) {
 			ApiError err = new ApiError("Impossible to login", Status.BAD_REQUEST.getStatusCode(), e.getMessage());
 			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
