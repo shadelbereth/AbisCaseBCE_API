@@ -18,14 +18,13 @@ public class Activity implements Serializable {
 
 	private Project project;
 	private Worker performer;
-	
-	// constructor 
-	
-	
+
+	// constructor
+
 	public Activity() {
 		super();
 	}
-	
+
 	public Activity(LocalDateTime start, LocalDateTime end, String description, Project project, Worker performer) {
 		super();
 		this.start = start;
@@ -34,8 +33,6 @@ public class Activity implements Serializable {
 		this.project = project;
 		this.performer = performer;
 	}
-
-	
 
 	// getter and setters
 

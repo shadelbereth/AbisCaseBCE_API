@@ -15,16 +15,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import be.abis.casebce.converter.ApiConverter;
-import be.abis.casebce.exception.ActivityCanNotBeAdded;
 import be.abis.casebce.exception.ApiError;
 import be.abis.casebce.model.api.Activity;
 import be.abis.casebce.session.ActivitySessionRemote;
@@ -88,7 +83,7 @@ public class ActivityService {
 		}
 		return activity;
 	}
-	
+
 	@PUT
 	@Path("{id}")
 	public void updateActivity(@PathParam("id") int id, Activity activity) {
@@ -98,8 +93,8 @@ public class ActivityService {
 			}
 			session.updateActivity(ApiConverter.convert(activity));
 		} catch (Exception e) {
-			ApiError err = new ApiError("Impossible to update activity with id " + id, Status.BAD_REQUEST.getStatusCode(),
-					e.getMessage());
+			ApiError err = new ApiError("Impossible to update activity with id " + id,
+					Status.BAD_REQUEST.getStatusCode(), e.getMessage());
 			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
 			throw new WebApplicationException(err.getTitle(), res);
 		}

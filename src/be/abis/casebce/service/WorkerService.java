@@ -64,11 +64,11 @@ public class WorkerService {
 		try {
 			worker = ApiConverter.convert(this.session.login(login.getLogin(), login.getPassword()));
 			System.out.println("login with " + login.getLogin() + " and " + login.getPassword());
-//			worker = new Worker();
-//			worker.setLogin(login.getLogin());
-//			worker.setFirstName(login.getLogin());
-//			worker.setId(-1);
-//			worker.setLastName(login.getLogin());
+			// worker = new Worker();
+			// worker.setLogin(login.getLogin());
+			// worker.setFirstName(login.getLogin());
+			// worker.setId(-1);
+			// worker.setLastName(login.getLogin());
 		} catch (Exception e) {
 			ApiError err = new ApiError("Impossible to login", Status.BAD_REQUEST.getStatusCode(), e.getMessage());
 			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
