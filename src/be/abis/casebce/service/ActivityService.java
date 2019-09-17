@@ -43,10 +43,9 @@ public class ActivityService {
 
 	@Path("add")
 	@POST
-	public void addActivity(be.abis.casebce.model.Activity activity) {
-		if (activity != null)
-			session.createActivity(activity);
+	public void addActivity(Activity activity) {
 		try {
+			session.createActivity(ApiConverter.convert(activity));
 		} catch (Exception e) {
 			ApiError err = new ApiError("Impossible to add activity", Status.BAD_REQUEST.getStatusCode(),
 					e.getMessage());
