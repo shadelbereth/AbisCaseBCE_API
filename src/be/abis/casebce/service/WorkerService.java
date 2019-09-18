@@ -44,7 +44,7 @@ public class WorkerService {
 		try {
 			worker = ApiConverter.convert(this.workerSession.login(login.getLogin(), login.getPassword()));
 		} catch (Exception e) {
-			ApiError err = new ApiError("Impossible to login", Status.BAD_REQUEST.getStatusCode(), e.getMessage());
+			ApiError err = new ApiError("loginErrorMessage", Status.BAD_REQUEST.getStatusCode(), e.getMessage());
 			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
 			throw new WebApplicationException(err.getTitle(), res);
 		}

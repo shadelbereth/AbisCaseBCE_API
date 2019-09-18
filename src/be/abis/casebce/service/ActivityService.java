@@ -47,7 +47,7 @@ public class ActivityService {
 		try {
 			session.createActivity(ApiConverter.convert(activity));
 		} catch (Exception e) {
-			ApiError err = new ApiError("Impossible to add activity", Status.BAD_REQUEST.getStatusCode(),
+			ApiError err = new ApiError("activityCreationErrorMessage", Status.BAD_REQUEST.getStatusCode(),
 					e.getMessage());
 			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
 			throw new WebApplicationException(err.getTitle(), res);
@@ -60,7 +60,7 @@ public class ActivityService {
 		try {
 			session.getActivities(performerId).forEach(a -> activities.add(ApiConverter.convert(a)));
 		} catch (Exception e) {
-			ApiError err = new ApiError("Impossible to get activities", Status.BAD_REQUEST.getStatusCode(),
+			ApiError err = new ApiError("activityListErrorMessage", Status.BAD_REQUEST.getStatusCode(),
 					e.getMessage());
 			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
 			throw new WebApplicationException(err.getTitle(), res);
@@ -75,7 +75,7 @@ public class ActivityService {
 		try {
 			activity = ApiConverter.convert(session.reuploadActivity(id));
 		} catch (Exception e) {
-			ApiError err = new ApiError("Impossible to get activity with id " + id, Status.BAD_REQUEST.getStatusCode(),
+			ApiError err = new ApiError("activityInfoErrorMessage", Status.BAD_REQUEST.getStatusCode(),
 					e.getMessage());
 			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
 			throw new WebApplicationException(err.getTitle(), res);
@@ -92,7 +92,7 @@ public class ActivityService {
 			}
 			session.updateActivity(ApiConverter.convert(activity));
 		} catch (Exception e) {
-			ApiError err = new ApiError("Impossible to update activity with id " + id,
+			ApiError err = new ApiError("activityUpdateErrorMessage",
 					Status.BAD_REQUEST.getStatusCode(), e.getMessage());
 			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
 			throw new WebApplicationException(err.getTitle(), res);

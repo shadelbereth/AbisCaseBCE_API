@@ -44,7 +44,7 @@ public class ProjectService {
 		try {
 			session.getProjects().forEach(p -> projects.add(ApiConverter.convert(p)));
 		} catch (Exception e) {
-			ApiError err = new ApiError("Impossible to get projects", Status.BAD_REQUEST.getStatusCode(),
+			ApiError err = new ApiError("projectListErrorMessage", Status.BAD_REQUEST.getStatusCode(),
 					e.getMessage());
 			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
 			throw new WebApplicationException(err.getTitle(), res);

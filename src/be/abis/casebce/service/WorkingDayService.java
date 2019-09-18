@@ -43,8 +43,8 @@ public class WorkingDayService {
 		try {
 			workingDay = ApiConverter.convert(session.getCurrentWorkingDay(workerId));
 		} catch (Exception e) {
-			ApiError err = new ApiError("Impossible to get last working day from worker " + workerId,
-					Status.BAD_REQUEST.getStatusCode(), e.getMessage());
+			ApiError err = new ApiError("lastWorkingDayErrorMessage", Status.BAD_REQUEST.getStatusCode(),
+					e.getMessage());
 			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
 			throw new WebApplicationException(err.getTitle(), res);
 		}
@@ -57,9 +57,8 @@ public class WorkingDayService {
 		try {
 			workingDay = ApiConverter.convert(session.startWorkingDay(ApiConverter.convert(workingDay)));
 		} catch (Exception e) {
-			ApiError err = new ApiError(
-					"Impossible to start working day from worker " + workingDay.getWorker().getLogin(),
-					Status.BAD_REQUEST.getStatusCode(), e.getMessage());
+			ApiError err = new ApiError("startWorkingDayErrorMessage", Status.BAD_REQUEST.getStatusCode(),
+					e.getMessage());
 			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
 			throw new WebApplicationException(err.getTitle(), res);
 		}
@@ -72,9 +71,8 @@ public class WorkingDayService {
 		try {
 			workingDay = ApiConverter.convert(session.closeWorkingDay(ApiConverter.convert(workingDay)));
 		} catch (Exception e) {
-			ApiError err = new ApiError(
-					"Impossible to close working day from worker " + workingDay.getWorker().getLogin(),
-					Status.BAD_REQUEST.getStatusCode(), e.getMessage());
+			ApiError err = new ApiError("closeWorkingDayErrorMessage", Status.BAD_REQUEST.getStatusCode(),
+					e.getMessage());
 			Response res = Response.status(Status.BAD_REQUEST).entity(err).build();
 			throw new WebApplicationException(err.getTitle(), res);
 		}
